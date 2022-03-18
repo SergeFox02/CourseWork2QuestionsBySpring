@@ -5,26 +5,14 @@ import pro.sky.coursework2.data.Question;
 import pro.sky.coursework2.exception.QuestionIsExist;
 import pro.sky.coursework2.exception.QuestionNotExist;
 
+import java.util.Collection;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static pro.sky.coursework2.service.impl.DataConstants.*;
 
 class JavaQuestionServiceTest {
 
     private final JavaQuestionService out= new JavaQuestionService();
-
-//    public static Stream<Arguments> QuestionServiceAddParamsTests() {
-//        return Stream.of(
-//                Arguments.of(Question(QU)),
-//                Arguments.of(NUM_1, ZERO, NUM_1)
-//        );
-//    }
-//
-//    @ParameterizedTest
-//    @MethodSource("QuestionServiceAddParamsTests")
-//    public void shouldTrueSum(String question, String answer, String resultOfadd) {
-//        Question result = out.add(question, answer);
-//        assertEquals(result, resultOfadd);
-//    }
 
     @Test
     void ShouldReturnTrueAddQuestionAndAnswer() {
@@ -60,5 +48,27 @@ class JavaQuestionServiceTest {
     @Test
     void ShouldReturnExceptionInRemoveWhenQuestionNotExistInList() {
         assertThrows(QuestionNotExist.class, () -> out.remove(QUESTION_1));
+    }
+
+    @Test
+    void ShouldReturnAllQuestionsInGetAll() {
+        Collection<Question> actual = out.getAll();
+        out.add(QUESTION_1, ANSWER_1);
+        assertEquals(actual.size(), out.getAll().size());
+        boolean addQuestion = false;
+        for (Question question : actual) {
+            if (question.equals(QUESTION_ANSWER_1)) {
+                addQuestion = true;
+                break;
+            }
+        }
+        assertTrue(addQuestion);
+    }
+
+    @Test
+    void ShouldReturnAnyQuestionInGetRandomQuestion() {
+        out.add(QUESTION_1, ANSWER_1);
+        Question actualQuestion = out.getRandomQuestion();
+        assertTrue(actualQuestion != null && Question.class == actualQuestion.getClass());
     }
 }

@@ -4,11 +4,12 @@ import org.springframework.stereotype.Service;
 import pro.sky.coursework2.data.Question;
 import pro.sky.coursework2.exception.QuestionIsExist;
 import pro.sky.coursework2.exception.QuestionNotExist;
+import pro.sky.coursework2.service.QuestionService;
 
 import java.util.*;
 
 @Service
-public class JavaQuestionService implements pro.sky.coursework2.service.QuestionService {
+public class JavaQuestionService implements QuestionService {
 
     private final Set<Question> questions = new HashSet<>(Set.of(
             new Question("How much memory has a byte?","A byte has a storage capacity 1 byte."),
