@@ -1,36 +1,39 @@
 package pro.sky.coursework2.service.impl;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import pro.sky.coursework2.data.Question;
 import pro.sky.coursework2.exception.QuestionListBadRequest;
 import pro.sky.coursework2.service.ExaminerService;
+import pro.sky.coursework2.service.QuestionService;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class ExaminerServiceImpl implements ExaminerService {
 
-    private final JavaQuestionService questionService;
+    private final QuestionService javaQuestionService;
+    private final QuestionService mathQuestionService;
 
-    public ExaminerServiceImpl(JavaQuestionService questionService) {
-        this.questionService = questionService;
+    public ExaminerServiceImpl(
+            @Qualifier("javaService") QuestionService javaQuestionService,
+            @Qualifier("mathService") QuestionService mathQuestionService) {
+        this.javaQuestionService = javaQuestionService;
+        this.mathQuestionService = mathQuestionService;
     }
 
     @Override
     public Collection<Question> getQuestions(int amount) {
-        Set<Question> listOfQuestions = new HashSet<>();
-        if (amount > questionService.getAll().size() || amount < 1) {
+        List<QuestionService> listOfQuestions = List.of(javaQuestionService, mathQuestionService);
+        int size = javaQuestionService.getAll().size() + mathQuestionService.getAll().size();
+        if (amount > size || amount < 1) {
             throw new QuestionListBadRequest("Error in the number of questions");
         }
-        int counter = 0;
-        while (counter < amount) {
-            Question randomQuestion = questionService.getRandomQuestion();
-            if (listOfQuestions.add(randomQuestion)) {
-                counter++;
-            }
+        Set<Question> questions = new HashSet<>();
+        Random random = new Random();
+        while (questions.size() < amount) {
+            questions.add(listOfQuestions.get(random.nextInt(listOfQuestions.size())).getRandomQuestion());
         }
-        return listOfQuestions;
+        return questions;
     }
 }

@@ -18,9 +18,14 @@ public class DataConstants {
     public static  final Question QUESTION_ANSWER_2 = new Question (QUESTION_2, ANSWER_2);
     public static  final Question QUESTION_ANSWER_3 = new Question (QUESTION_3, ANSWER_3);
 
-    public static  final Collection<Question> QUESTIONS = new HashSet<>(Set.of(
-            QUESTION_ANSWER_1
-//            QUESTION_ANSWER_2,
-//            QUESTION_ANSWER_3
+    public static  final Collection<Question> JAVA_QUESTIONS = new HashSet<>(Set.of(
+            QUESTION_ANSWER_1,
+            QUESTION_ANSWER_2,
+            QUESTION_ANSWER_3
+    ));
+    public static  final Collection<Question> MATH_QUESTIONS = new HashSet<>(Set.of(
+            new Question("2 + 2 ", "4"),
+            new Question("3 * 3 ", "9"),
+            new Question("7 - 3 ", "4")
     ));
 }
