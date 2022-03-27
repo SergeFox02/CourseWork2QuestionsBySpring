@@ -16,13 +16,13 @@ import static org.mockito.Mockito.when;
 import static pro.sky.coursework2.service.impl.DataConstants.*;
 
 @ExtendWith(MockitoExtension.class)
-class JavaQuestionServiceTest {
+class MathQuestionServiceTest {
 
     @Mock
     private QuestionRepository questionRepositoryMock;
 
     @InjectMocks
-    private JavaQuestionService out;
+    private MathQuestionService out;
 
     @Test
     void ShouldReturnQuestionWhenAddQuestionAndAnswer() {

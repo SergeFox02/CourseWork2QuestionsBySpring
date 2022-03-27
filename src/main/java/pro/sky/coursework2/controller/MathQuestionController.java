@@ -8,28 +8,28 @@ import org.springframework.web.bind.annotation.RestController;
 import pro.sky.coursework2.service.QuestionService;
 
 @RestController
-@RequestMapping("exam/java")
-public class JavaQuestionController {
+@RequestMapping("exam/math")
+public class MathQuestionController {
 
-    private final QuestionService javaQuestionService;
+    private final QuestionService mathQuestionService;
 
-    public JavaQuestionController(@Qualifier("javaService") QuestionService javaQuestionService) {
-        this.javaQuestionService = javaQuestionService;
+    public MathQuestionController(@Qualifier("mathService") QuestionService mathQuestionService) {
+        this.mathQuestionService = mathQuestionService;
     }
 
     @GetMapping("/add")
     public String addQuestion(@RequestParam(value = "question", required = false) String question,
-                       @RequestParam(value = "answer", required = false) String answer) {
-        return javaQuestionService.add(question, answer).toString();
+                              @RequestParam(value = "answer", required = false) String answer) {
+        return mathQuestionService.add(question, answer).toString();
     }
 
     @GetMapping("/remove")
     public String removeQuestion(@RequestParam(value = "question", required = false) String question) {
-        return javaQuestionService.remove(question).toString();
+        return mathQuestionService.remove(question).toString();
     }
 
     @GetMapping()
     public String getAllQuestion() {
-        return javaQuestionService.getAll().toString();
+        return mathQuestionService.getAll().toString();
     }
 }
