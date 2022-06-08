@@ -1,6 +1,5 @@
 package pro.sky.coursework2.service.impl;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import pro.sky.coursework2.data.Question;
 import pro.sky.coursework2.exception.QuestionListBadRequest;
@@ -12,27 +11,21 @@ import java.util.*;
 @Service
 public class ExaminerServiceImpl implements ExaminerService {
 
-    private final QuestionService javaQuestionService;
-    private final QuestionService mathQuestionService;
+    private final List<QuestionService> services;
 
-    public ExaminerServiceImpl(
-            @Qualifier("javaService") QuestionService javaQuestionService,
-            @Qualifier("mathService") QuestionService mathQuestionService) {
-        this.javaQuestionService = javaQuestionService;
-        this.mathQuestionService = mathQuestionService;
+    public ExaminerServiceImpl(List<QuestionService> questionServices){
+        this.services = questionServices;
     }
 
     @Override
     public Collection<Question> getQuestions(int amount) {
-        List<QuestionService> listOfQuestions = List.of(javaQuestionService, mathQuestionService);
-        int size = javaQuestionService.getAll().size() + mathQuestionService.getAll().size();
-        if (amount > size || amount < 1) {
+        if (amount <= 0) {
             throw new QuestionListBadRequest("Error in the number of questions");
         }
         Set<Question> questions = new HashSet<>();
         Random random = new Random();
         while (questions.size() < amount) {
-            questions.add(listOfQuestions.get(random.nextInt(listOfQuestions.size())).getRandomQuestion());
+            questions.add(services.get(random.nextInt(services.size())).getRandomQuestion());
         }
         return questions;
     }
